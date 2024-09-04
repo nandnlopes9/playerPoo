@@ -4,8 +4,12 @@ import java.awt.event.ActionEvent;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.time.Duration;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.ResourceBundle;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.fxml.FXML;
@@ -20,7 +24,6 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
-
 /**
  *
  * @author Samuka
@@ -98,6 +101,31 @@ public class FXMLDocumentController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         reinicializaMusica(indiceMusica);
+        
+        variaBarraProgresso();
+    }
+    
+    public void variaBarraProgresso(){
+        double progresso = 0;
+        this.barraProgresso.setProgress(progresso);
+        //Poe o progresso como zero
+        
+        long duracao = (long) musicaAtual.getDuration().toMillis();
+        //Converte a duração da musica atual para millisegundos
+        
+        long porcentagem = 100/duracao;
+        //Esta variavel representa a porcentagem do quanto cada segundo representa na música
+        
+        Timer temporizador = new Timer();
+        TimerTask tarefa = new TimerTask(){
+            @Override
+            public void run(){
+                //Esta é a tarefa que será efetuada eventualmente
+                //É preciso criar um código de um número Duração que se adeque
+            }
+        };
+        
+        temporizador.schedule(tarefa, new Date(), indiceMusica);
     }
     
     public void reinicializaMusica(int idMusica){
