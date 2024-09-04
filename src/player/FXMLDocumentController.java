@@ -93,6 +93,8 @@ public class FXMLDocumentController implements Initializable {
         this.playClick();
     }
     
+    
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         reinicializaMusica(indiceMusica);
@@ -104,6 +106,7 @@ public class FXMLDocumentController implements Initializable {
         
         musicaAtual = new Media(new File(musicas.get(idMusica)).toURI().toString());
         tocadorDeMusica = new MediaPlayer(musicaAtual);
+        
     }
 
     
