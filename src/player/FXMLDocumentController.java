@@ -1,8 +1,8 @@
 package player;
-
 import java.awt.event.ActionEvent;
 import java.io.File;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.net.URL;
 import java.time.Duration;
 import java.util.ArrayList;
@@ -34,6 +34,8 @@ public class FXMLDocumentController implements Initializable {
     private MediaPlayer tocadorDeMusica;
     private ArrayList<String> musicas = new ArrayList<String>();
     private int indiceMusica = 0;
+    private long duracao;
+    
     
     @FXML
     private ProgressBar barraProgresso;
@@ -53,6 +55,9 @@ public class FXMLDocumentController implements Initializable {
     private VBox todasMusicas;
     
     private boolean play=false;
+    private double progress;
+    private Timer timer;
+    private TimerTask tarefa;
     
     /**
      * Essa função muda a imagem do botão play conforme o usuário clica
@@ -63,10 +68,12 @@ public class FXMLDocumentController implements Initializable {
             btnPlay.setImage(new Image(getClass().getResourceAsStream("../assets/BotoesPlayPause/Pause.png")));
             play=true;
             tocadorDeMusica.play();
+            this.play();
         }else{
             btnPlay.setImage(new Image(getClass().getResourceAsStream("../assets/BotoesPlayPause/Play.png")));
             play=false;
             tocadorDeMusica.pause();
+            this.pause();
         }
     }
     
@@ -81,6 +88,9 @@ public class FXMLDocumentController implements Initializable {
         this.reinicializaMusica(indiceMusica);
         this.play = false;
         this.playClick();
+        barraProgresso.setProgress(0);
+        progress = 0;
+        this.play();
     }
 
     @FXML
@@ -94,6 +104,31 @@ public class FXMLDocumentController implements Initializable {
         this.reinicializaMusica(indiceMusica);
         this.play = false;
         this.playClick();
+        barraProgresso.setProgress(0);
+        progress = 0;
+        this.play();
+    }
+    
+    private void play() {
+        tarefa = new TimerTask(){
+            @Override
+            public void run() {
+                progress += (10/100 * duracao)/10;
+                barraProgresso.setProgress(progress);
+            }
+        };
+        
+        duracao =  (long) musicaAtual.getDuration().toSeconds();
+        
+        this.barraProgresso.setProgress(progress);
+        
+        if(progress < 1 && (play)){
+            timer.schedule(tarefa, new Date(), 1000);
+        }
+    }
+    
+    private void pause(){
+        tarefa.cancel();
     }
     
     
@@ -102,30 +137,10 @@ public class FXMLDocumentController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         reinicializaMusica(indiceMusica);
         
-        variaBarraProgresso();
     }
-    
-    public void variaBarraProgresso(){
-        double progresso = 0;
-        this.barraProgresso.setProgress(progresso);
-        //Poe o progresso como zero
-        
-        long duracao = (long) musicaAtual.getDuration().toMillis();
-        //Converte a duração da musica atual para millisegundos
-        
-        long porcentagem = 100/duracao;
-        //Esta variavel representa a porcentagem do quanto cada segundo representa na música
-        
-        Timer temporizador = new Timer();
-        TimerTask tarefa = new TimerTask(){
-            @Override
-            public void run(){
-                //Esta é a tarefa que será efetuada eventualmente
-                //É preciso criar um código de um número Duração que se adeque
-            }
-        };
-        
-        temporizador.schedule(tarefa, new Date(), indiceMusica);
+    //Este método abaixo define a barra de progresso
+    public void playBarraDeProgresso(double inicioPercentual){
+        barraProgresso.setProgress(inicioPercentual);
     }
     
     public void reinicializaMusica(int idMusica){
@@ -136,6 +151,8 @@ public class FXMLDocumentController implements Initializable {
         tocadorDeMusica = new MediaPlayer(musicaAtual);
         
     }
+    
+    
 
     
 }
