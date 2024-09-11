@@ -34,7 +34,7 @@ public class ManipulaArquivo {
     public static ArrayList<String> buscaMusicas(){
         ArrayList<String> musicas = new ArrayList<>();        
         String extensao = ".mp3";
-        String url = System.getProperty("user.home")+"/Music";
+        String url = Paths.get("").toAbsolutePath().resolve("Musicas")+"";
         url.replaceAll("\\\\", "/");
         Path caminho = Paths.get(url);
         try{
