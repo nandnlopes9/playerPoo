@@ -31,10 +31,12 @@ import org.jaudiotagger.tag.id3.ID3v24Tag;
  */
 public class ManipulaArquivo {
     
-    public static ArrayList<String> buscaMusicas(){
+    public static ArrayList<String> buscaMusicas(String url){
         ArrayList<String> musicas = new ArrayList<>();        
         String extensao = ".mp3";
-        String url = Paths.get("").toAbsolutePath().resolve("Musicas")+"";
+        if(url == null){
+            url = Paths.get("").toAbsolutePath().resolve("Musicas")+"";
+        }
         url.replaceAll("\\\\", "/");
         Path caminho = Paths.get(url);
         try{
