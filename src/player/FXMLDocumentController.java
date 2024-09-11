@@ -92,8 +92,7 @@ public class FXMLDocumentController implements Initializable {
                 // Guardando o caminho selecionado pelo usuario, em uma variavel
                 System.out.println("As musicas do diretorio: " + newFolderPath.toString());
                 String caminhoPasta = newFolderPath.toString();
-                musicasTela.getChildren().removeAll();
-                playlist.getPlaylist().clear();
+                musicasTela.getChildren().clear();
                 musicasTela.getChildren().addAll(addMusica(caminhoPasta));
                 indiceMusica=0;
             }
@@ -199,6 +198,7 @@ public class FXMLDocumentController implements Initializable {
             Label artista = new Label(musica.getArtista()+"\n");
             //Procurar uma maneira melhor de pegar a duração das musicas sem precisar inicia-las
             
+            titulo.setFont(new Font(25));
             titulo.setTextFill(Color.WHITE);
             album.setTextFill(Color.WHITE);
             artista.setTextFill(Color.WHITE);
@@ -214,7 +214,7 @@ public class FXMLDocumentController implements Initializable {
             
             containerMusica.getChildren().add(capa);
             containerMusica.getChildren().add(dadosMusica);
-            containerMusica.setPadding(new Insets(0,0,10,0));
+            containerMusica.setPadding(new Insets(0,0,10,15));
             System.out.println(musica.getCaminho());
             containerMusica.setOnMouseClicked((MouseEvent event)->{
                 playMusica(musica.getCaminho());
