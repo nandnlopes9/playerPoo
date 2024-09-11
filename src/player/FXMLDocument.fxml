@@ -11,10 +11,10 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" fx:id="telaPrincipal" prefHeight="900.0" prefWidth="1600.0" style="-fx-background-color: #343434;" stylesheets="@../assets/newCascadeStyleSheet.css" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="player.FXMLDocumentController">
+<AnchorPane id="AnchorPane" fx:id="telaPrincipal" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="900.0" prefWidth="1600.0" style="-fx-background-color: #343434;" stylesheets="@../assets/newCascadeStyleSheet.css" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="player.FXMLDocumentController">
    <children>
-      <Rectangle arcHeight="50.0" arcWidth="50.0" fill="#222222" height="900.0" layoutX="-21.0" stroke="TRANSPARENT" strokeType="INSIDE" width="691.0" />
-      <ImageView fx:id="capaTocandoAgora" fitHeight="289.0" fitWidth="315.0" layoutX="167.0" layoutY="161.0" pickOnBounds="true" preserveRatio="true">
+      <Rectangle fx:id="playerTela" arcHeight="50.0" arcWidth="50.0" fill="#222222" height="900.0" layoutX="-21.0" stroke="TRANSPARENT" strokeType="INSIDE" width="691.0" />
+      <ImageView fx:id="capaTocandoAgora" fitHeight="360.0" fitWidth="388.0" layoutX="145.0" layoutY="90.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../assets/imgPadrao.jpeg" />
          </image>
@@ -52,9 +52,9 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </ImageView>
-      <ScrollPane layoutX="670.0" layoutY="14.0" prefHeight="886.0" prefWidth="930.0" style="-fx-background-color: #343434;">
+      <ScrollPane layoutX="670.0" layoutY="14.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="886.0" prefWidth="930.0" style="-fx-background-color: #343434;">
          <content>
-            <VBox fx:id="musicasTela" prefHeight="882.0" prefWidth="927.0" style="-fx-background-color: #343434;">
+            <VBox fx:id="musicasTela" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="884.0" prefWidth="928.0" style="-fx-background-color: #343434;">
                <children>
                   <Label text="Label" />
                </children>

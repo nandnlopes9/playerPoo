@@ -1,10 +1,8 @@
 /*
-    IMPEDIR QUE O LABEL "VAZE" DA BORDA
     ARRUMAR UM JEITO DE CONSEGUIR PEGAR A DURAÇÃO DA MUSICA
     FAZER A BARRA DE PROGRESSO FUNCIONAR
     COLOCAR O BOTÃO DE ADICIONAR PASTA
     CRIAR ARQUIVO JAVADOC
-    
 */
 
 package player;
@@ -21,6 +19,7 @@ import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
+import javafx.scene.Cursor;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.control.ScrollPane;
@@ -33,6 +32,8 @@ import javafx.scene.layout.VBox;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Font;
 
 /**
  *
@@ -63,6 +64,8 @@ public class FXMLDocumentController implements Initializable {
     private VBox musicasTela;
     @FXML
     private AnchorPane telaPrincipal;
+    @FXML
+    private Rectangle playerTela;
     
     private boolean play=false;
     
@@ -146,6 +149,11 @@ public class FXMLDocumentController implements Initializable {
             album.setTextFill(Color.WHITE);
             artista.setTextFill(Color.WHITE);
             
+            titulo.setFont(new Font(25));
+            titulo.setPadding(new Insets(0,0,10,0));
+            album.setPadding(new Insets(0,0,5,0));
+            artista.setPadding(new Insets(0,0,5,0));
+            
             dadosMusica.getChildren().add(titulo);
             dadosMusica.getChildren().add(album);
             dadosMusica.getChildren().add(artista);
@@ -157,8 +165,9 @@ public class FXMLDocumentController implements Initializable {
             
             containerMusica.getChildren().add(capa);
             containerMusica.getChildren().add(dadosMusica);
-            containerMusica.setPadding(new Insets(0,0,10,0));
-            System.out.println(musica.getCaminho());
+            containerMusica.setPadding(new Insets(0,0,10,10));
+            containerMusica.setCursor(Cursor.HAND);
+            containerMusica.setMaxWidth(900);
             containerMusica.setOnMouseClicked((MouseEvent event)->{
                 playMusica(musica.getCaminho());
                 capaTocandoAgora.setImage(musica.getCapa());
@@ -166,7 +175,6 @@ public class FXMLDocumentController implements Initializable {
                 tituloTocandoAgora.setText(musica.getTitulo());
                 play = false;
                 playClick(null);
-                
             });
             musicas.add(containerMusica);
         }
@@ -188,5 +196,6 @@ public class FXMLDocumentController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         musicasTela.getChildren().addAll(addMusica());
+        musicasTela.setMaxWidth(910);
     }
 }

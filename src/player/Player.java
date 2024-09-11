@@ -18,6 +18,7 @@ public class Player extends Application {
         
         Scene scene = new Scene(root);
         
+        stage.setTitle("Player de Música");
         stage.setScene(scene);
         stage.show();
     }
