@@ -1,5 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ProgressBar?>
@@ -10,7 +17,7 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="900.0" prefWidth="1600.0" style="-fx-background-color: #343434;" stylesheets="@../assets/newCascadeStyleSheet.css" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="player.FXMLDocumentController">
+<AnchorPane id="AnchorPane" prefHeight="900.0" prefWidth="1600.0" style="-fx-background-color: #343434;" stylesheets="@../assets/newCascadeStyleSheet.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="player.FXMLDocumentController">
    <children>
       <Rectangle arcHeight="50.0" arcWidth="50.0" fill="#222222" height="900.0" layoutX="-21.0" stroke="TRANSPARENT" strokeType="INSIDE" width="691.0" />
       <ImageView fx:id="capaTocandoAgora" fitHeight="289.0" fitWidth="315.0" layoutX="167.0" layoutY="161.0" pickOnBounds="true" preserveRatio="true">
@@ -36,14 +43,14 @@
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor></ImageView>
-      <ImageView fx:id="btnProximo" fitHeight="70.0" fitWidth="70.0" layoutX="404.0" layoutY="770.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="btnProximo" fitHeight="70.0" fitWidth="70.0" layoutX="404.0" layoutY="770.0" onMouseClicked="#proximaClick" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../assets/BotoesPlayPause/Proximo.png" />
          </image>
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor></ImageView>
-      <ImageView fx:id="btnAnterior" fitHeight="70.0" fitWidth="70.0" layoutX="150.0" layoutY="770.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="btnAnterior" fitHeight="70.0" fitWidth="70.0" layoutX="150.0" layoutY="770.0" onMouseClicked="#anteriorClick" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../assets/BotoesPlayPause/Anterior.png" />
          </image>
