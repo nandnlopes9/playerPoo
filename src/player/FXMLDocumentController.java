@@ -1,10 +1,8 @@
 /*
-    IMPEDIR QUE O LABEL "VAZE" DA BORDA
     ARRUMAR UM JEITO DE CONSEGUIR PEGAR A DURAÇÃO DA MUSICA
     FAZER A BARRA DE PROGRESSO FUNCIONAR
     COLOCAR O BOTÃO DE ADICIONAR PASTA
     CRIAR ARQUIVO JAVADOC
-    
 */
 
 package player;
@@ -16,14 +14,13 @@ import java.io.File;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
+import javafx.scene.Cursor;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
-import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -33,6 +30,8 @@ import javafx.scene.layout.VBox;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Font;
 
 /**
  *
@@ -63,11 +62,13 @@ public class FXMLDocumentController implements Initializable {
     private VBox musicasTela;
     @FXML
     private AnchorPane telaPrincipal;
+    @FXML
+    private Rectangle playerTela;
     
     private boolean play=false;
     
     /**
-     * Essa função muda a imagem do botão play conforme o usuário clica
+     * Essa função muda a imagem do botão play conforme o usuário clica e inicia a música ou pausa dependendo do estado da variável play
      */
     @FXML
     void playClick(MouseEvent event) {
@@ -82,6 +83,10 @@ public class FXMLDocumentController implements Initializable {
         }
     }
     
+    /**
+     * Essa função avança para a próxima música
+     * @param event 
+     */
     @FXML
     void proximaClick(MouseEvent event) {
         indiceMusica++;
@@ -91,14 +96,15 @@ public class FXMLDocumentController implements Initializable {
         }
         this.reinicializaMusica(indiceMusica);
         Musica musicaAtual = playlist.buscaMusica(this.musicaAtual.getSource());
-        
-        capaTocandoAgora.setImage(musicaAtual.getCapa());
-        artistaTocandoAgora.setText(musicaAtual.getArtista());
-        tituloTocandoAgora.setText(musicaAtual.getTitulo());
+        atualizaMusicaAtual(musicaAtual);
         this.play = false;
         this.playClick(null);
     }
-
+    
+    /**
+     * Essa função volta para a música anterior
+     * @param event 
+     */
     @FXML
     void anteriorClick(MouseEvent event) {
         
@@ -110,17 +116,30 @@ public class FXMLDocumentController implements Initializable {
         this.reinicializaMusica(indiceMusica);
         
         Musica musicaAtual = playlist.buscaMusica(this.musicaAtual.getSource());
-        capaTocandoAgora.setImage(musicaAtual.getCapa());
-        artistaTocandoAgora.setText(musicaAtual.getArtista());
-        tituloTocandoAgora.setText(musicaAtual.getTitulo());
+        atualizaMusicaAtual(musicaAtual);
         this.play = false;
         this.playClick(null);
     }
+    
+    public void atualizaMusicaAtual(Musica musica){
+        capaTocandoAgora.setImage(musica.getCapa());
+        artistaTocandoAgora.setText(musica.getArtista());
+        tituloTocandoAgora.setText(musica.getTitulo());
+    }
+    
+    /**
+     * Essa função é ativada sempre que o botão de anterior ou próximo é clicado, assim ela envia para a função playMusica a música que será tocada
+     * @param idMusica 
+     */
     
     public void reinicializaMusica(int idMusica){
         playMusica(playlist.getPlaylist().get(idMusica).getCaminho());
     }
     
+    /**
+     * Essa função atualiza o objeto tocadorMusica com a musica que deverá ser tocada
+     * @param caminho 
+     */
     public void playMusica(String caminho){
         musicaAtual = null;
         if(tocadorDeMusica != null){
@@ -129,6 +148,11 @@ public class FXMLDocumentController implements Initializable {
         musicaAtual = new Media(caminho);
         tocadorDeMusica = new MediaPlayer(musicaAtual);
     }
+    
+    /**
+     * Essa função cria os container das músicas e retorna uma lista com todas as músicas formatadas para serem colocadas na tela
+     * @return 
+     */
     
     public ArrayList<HBox> addMusica(){
         addTodasMusicas();
@@ -146,6 +170,11 @@ public class FXMLDocumentController implements Initializable {
             album.setTextFill(Color.WHITE);
             artista.setTextFill(Color.WHITE);
             
+            titulo.setFont(new Font(25));
+            titulo.setPadding(new Insets(0,0,10,0));
+            album.setPadding(new Insets(0,0,5,0));
+            artista.setPadding(new Insets(0,0,5,0));
+            
             dadosMusica.getChildren().add(titulo);
             dadosMusica.getChildren().add(album);
             dadosMusica.getChildren().add(artista);
@@ -157,25 +186,30 @@ public class FXMLDocumentController implements Initializable {
             
             containerMusica.getChildren().add(capa);
             containerMusica.getChildren().add(dadosMusica);
-            containerMusica.setPadding(new Insets(0,0,10,0));
-            System.out.println(musica.getCaminho());
+            containerMusica.setPadding(new Insets(0,0,10,10));
+            containerMusica.setCursor(Cursor.HAND);
+            containerMusica.setMaxWidth(900);
             containerMusica.setOnMouseClicked((MouseEvent event)->{
                 playMusica(musica.getCaminho());
                 capaTocandoAgora.setImage(musica.getCapa());
                 artistaTocandoAgora.setText(musica.getArtista());
                 tituloTocandoAgora.setText(musica.getTitulo());
+                
                 play = false;
                 playClick(null);
-                
             });
             musicas.add(containerMusica);
         }
         return musicas;
     }
     
-    public void addTodasMusicas(){
+    /**
+     * Essa função cria objetos Musica com as informações necessárias e armazena na playlist
+     */
+    private void addTodasMusicas(){
         HashMap<String, String> metadadosMusica;
         for(String caminho : ManipulaArquivo.buscaMusicas()){
+            System.out.println(caminho);
             metadadosMusica = ManipulaArquivo.getMetadados(caminho);
             Image capa = ManipulaArquivo.carregaCapa(caminho);
             if(metadadosMusica != null){
@@ -188,5 +222,8 @@ public class FXMLDocumentController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         musicasTela.getChildren().addAll(addMusica());
+        musicasTela.setMaxWidth(910);
+        playMusica(playlist.getPlaylist().get(indiceMusica).getCaminho());
+        atualizaMusicaAtual(playlist.buscaMusica(playlist.getPlaylist().get(indiceMusica).getCaminho()));
     }
 }
