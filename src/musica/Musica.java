@@ -4,8 +4,9 @@ package musica;
 import javafx.scene.image.Image;
 
 /**
- *
- * @author Samuka
+ * @author Luiz Fernando Lopes
+ * @author Samuel Lopes
+ * @author Pedro Lopes
  */
 public class Musica {
     private String titulo;

@@ -7,8 +7,9 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 /**
- *
- * @author Samuka
+ * @author Luiz Fernando Lopes
+ * @author Samuel Lopes
+ * @author Pedro Lopes
  */
 public class Player extends Application {
     

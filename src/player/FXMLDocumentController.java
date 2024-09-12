@@ -88,6 +88,10 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private ImageView imgVolume;
     
+    /**
+     * Metodo para controlar o volume da musica, e mudar o icone do autofalante conforme o valor do Slider
+     */
+    
     public void barraVolume(){
         barraVolume.valueProperty().addListener(new ChangeListener<Number>(){
             @Override
@@ -103,6 +107,11 @@ public class FXMLDocumentController implements Initializable {
             }
         });
     }
+    
+    /**
+     * Metodo para visualizar o progresso da musica, esse metodo cria os eventos para avançar e retroceder o progresso da musica conforme o usuario
+     * deseja. 
+     */
     
     public void barraProgresso(){
         tocadorDeMusica.currentTimeProperty().addListener(new ChangeListener<Duration>() {
@@ -125,9 +134,20 @@ public class FXMLDocumentController implements Initializable {
         });
     }
     
+    /**
+     * Atualiza o valor maximo da barra de progresso da musica, visto que musicas tem tamanhos diferentes
+     * @param tempoTotal 
+     */
+    
     private void atualizaBarra(Duration tempoTotal){
         barraProgresso.setMax(tempoTotal.toSeconds());
     }
+    
+    /**
+     * Ele atualiza o Label de tempo da musica, para que o usuario possa visualizar o progresso da musica em minutos
+     * @param tempoAtual
+     * @param tempoLabel 
+     */
     
     private void atualizaTempo(Duration tempoAtual, Label tempoLabel) {
          
@@ -147,10 +167,12 @@ public class FXMLDocumentController implements Initializable {
 }
     
     /**
-     * Essa função abre a janela para selecionar um diretorio 
+     * Essa função abre a janela para selecionar um diretorio que contem arquivos de extensao mp3, no qual o programa irá utilizar 
      * @param event 
      */
     @FXML
+    
+    
     public void eventoBtnPasta(MouseEvent event) {
             DirectoryChooser directoryChooser = new DirectoryChooser();
             directoryChooser.setTitle("Escolha um diretório");
@@ -171,6 +193,7 @@ public class FXMLDocumentController implements Initializable {
     
     /**
      * Essa função muda a imagem do botão play conforme o usuário clica e inicia a música ou pausa dependendo do estado da variável play
+     * @param event 
      */
     @FXML
     public void playClick(MouseEvent event) {
@@ -242,6 +265,11 @@ public class FXMLDocumentController implements Initializable {
         this.playClick(null);
     }
     
+    /**
+     * Esse metodo atualiza a tela do player, atualiza a capa, o nome do artista, e o titulo da musica 
+     * @param musica 
+     */
+    
     public void atualizaMusicaAtual(Musica musica){
         capaTocandoAgora.setImage(musica.getCapa());
         artistaTocandoAgora.setText(musica.getArtista());
@@ -285,7 +313,6 @@ public class FXMLDocumentController implements Initializable {
             Label titulo = new Label(musica.getTitulo()+"\n");
             Label album = new Label(musica.getAlbum()+"\n");
             Label artista = new Label(musica.getArtista()+"\n");
-            //Procurar uma maneira melhor de pegar a duração das musicas sem precisar inicia-las
             
             titulo.setFont(new Font(25));
             titulo.setTextFill(Color.WHITE);
@@ -334,14 +361,18 @@ public class FXMLDocumentController implements Initializable {
     
     /**
      * Essa função cria objetos Musica com as informações necessárias e armazena na playlist
+     * @param caminho 
      */
     public void addTodasMusicas(String caminho){
         HashMap<String, String> metadadosMusica;
         for(String url : ManipulaArquivo.buscaMusicas(caminho)){
             metadadosMusica = ManipulaArquivo.getMetadados(url);
             Image capa = ManipulaArquivo.carregaCapa(url);
-            if(metadadosMusica != null){
+            if(metadadosMusica != null && capa!=null){
                 Musica musica = new Musica(metadadosMusica.get("titulo"), metadadosMusica.get("artista"), metadadosMusica.get("album"), capa, new File(url).toURI().toString(), idMusica++);
+                playlist.addMusica(musica);
+            }else{
+                Musica musica = new Musica("Sem titulo","","", new Image(new File(Paths.get("").toAbsolutePath().resolve("src/assets/imgPadrao.jpeg").toString()).toURI().toString()),new File(url).toURI().toString(), idMusica++);
                 playlist.addMusica(musica);
             }
         }

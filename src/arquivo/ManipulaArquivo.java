@@ -26,10 +26,19 @@ import org.jaudiotagger.tag.id3.ID3v24Tag;
 
 
 /**
- *
- * @author Samuka
+ * @author Luiz Fernando Lopes
+ * @author Samuel Lopes
+ * @author Pedro Lopes
  */
+
+
 public class ManipulaArquivo {
+
+    /**
+     * Busca os arquivos com formato .mp3, e retorna uma lista de caminho dos arquivos
+     * @param url
+     * @return 
+     */
     
     public static ArrayList<String> buscaMusicas(String url){
         ArrayList<String> musicas = new ArrayList<>();        
@@ -63,6 +72,12 @@ public class ManipulaArquivo {
         return musicas;
     }
     
+    /**
+     * Esse metodo retorna um HashMap com todos os metadados do arquivo mp3 especificado no parametro
+     * @param caminho
+     * @return 
+     */
+    
     public static HashMap<String, String> getMetadados(String caminho){
         
         try{
@@ -88,6 +103,12 @@ public class ManipulaArquivo {
         return null;
     }
     
+    
+    /**
+     * Esse metodo retorna a capa do arquivo mp3 no formado .img
+     * @param caminho
+     * @return 
+     */
     public static Image carregaCapa(String caminho){
         Image capa = null;
         try{
@@ -111,6 +132,12 @@ public class ManipulaArquivo {
         return null;
     }
     
+    /**
+     * Esse metodo pega a imagem de um tipo de metadado especifico, faz parte da biblioteca que estamos usando
+     * @param iD3v23Tag
+     * @return
+     * @throws IOException 
+     */
     private static Image processarCapaID3v23(ID3v23Tag iD3v23Tag) throws IOException{
         byte[] capaByte = iD3v23Tag.getFirstArtwork().getBinaryData();
                 
@@ -123,6 +150,12 @@ public class ManipulaArquivo {
         return null;
     }
     
+    /**
+     * Esse metodo pega a imagem de um tipo de metadado especifico, faz parte da biblioteca que estamos usando
+     * @param iD3v24Tag
+     * @return
+     * @throws IOException 
+     */
     private static Image processarCapaID3v24(ID3v24Tag iD3v24Tag) throws IOException{
         byte[] capaByte = iD3v24Tag.getFirstArtwork().getBinaryData();
                 
@@ -134,6 +167,13 @@ public class ManipulaArquivo {
         }
         return null;
     }
+    
+    /**
+     * Esse metodo pega a imagem de um tipo de metadado especifico, faz parte da biblioteca que estamos usando
+     * @param iD3v22Tag
+     * @return
+     * @throws IOException 
+     */
     
     private static Image processarCapaID3v22(ID3v22Tag iD3v22Tag) throws IOException{
         byte[] capaByte = iD3v22Tag.getFirstArtwork().getBinaryData();
@@ -147,6 +187,12 @@ public class ManipulaArquivo {
         return null;
     }
     
+    /**
+     * Esse metodo pega a imagem de um tipo de metadado especifico, faz parte da biblioteca que estamos usando
+     * @param iD3v23Tag
+     * @return 
+     */
+    
     private static HashMap<String, String> processarTagID3v23(ID3v23Tag iD3v23Tag) {
         HashMap<String,String> tags = new HashMap<>();
         tags.put("titulo", iD3v23Tag.getFirst(FieldKey.TITLE));
@@ -155,6 +201,12 @@ public class ManipulaArquivo {
         return tags;
     }
 
+    /**
+     * Esse metodo pega a imagem de um tipo de metadado especifico, faz parte da biblioteca que estamos usando
+     * @param iD3v24Tag
+     * @return 
+     */
+    
     private static HashMap<String, String> processarTagID3v24(ID3v24Tag iD3v24Tag) {
         HashMap<String,String> tags = new HashMap<>();
         tags.put("titulo", iD3v24Tag.getFirst(FieldKey.TITLE));
@@ -163,6 +215,11 @@ public class ManipulaArquivo {
         return tags;
     }
 
+    /**
+     * Esse metodo pega a imagem de um tipo de metadado especifico, faz parte da biblioteca que estamos usando
+     * @param iD3v22Tag
+     * @return 
+     */
     private static HashMap<String, String> processarTagID3v22(ID3v22Tag iD3v22Tag) {
         HashMap<String,String> tags = new HashMap<>();
         tags.put("titulo", iD3v22Tag.getFirst(FieldKey.TITLE));
