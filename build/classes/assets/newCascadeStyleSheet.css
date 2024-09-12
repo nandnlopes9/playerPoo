@@ -3,9 +3,19 @@
     Author     : Samuka
 */
 
-#barraProgresso .bar{
-    -fx-background-color: #eee;
+.slider .track {
+    -fx-background-color: linear-gradient(to left, white, #444); /* Cor padrão */
+    -fx-background-radius: 0;
 }
-#barraProgresso .track{
-    -fx-background-color: #444;
+
+.slider .track .fill {
+    -fx-background-color: linear-gradient(to right, red, royalblue); /* Cor da parte preenchida */
+    -fx-background-radius: 0;
+}
+
+.slider .thumb {
+    -fx-pref-height: 20px;
+    -fx-pref-width: 10px;
+    -fx-background-color: linear-gradient(to top, #ddd, #eee);
+    -fx-background-radius: 0;
 }

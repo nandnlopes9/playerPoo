@@ -2,7 +2,6 @@
 package musica;
 
 import javafx.scene.image.Image;
-import javafx.util.Duration;
 
 /**
  *
@@ -14,14 +13,23 @@ public class Musica {
     private String album;
     private Image capa;
     private String caminho;
-    private Duration duracao;
+    private int id;
     
-    public Musica(String titulo, String artista, String album, Image capa, String caminho){
+    public Musica(String titulo, String artista, String album, Image capa, String caminho, int id){
         this.album = album;
         this.artista = artista;
         this.caminho = caminho;
         this.capa = capa;
         this.titulo = titulo;
+        this.id = id;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getTitulo() {
@@ -62,14 +70,6 @@ public class Musica {
 
     public void setCaminho(String caminho) {
         this.caminho = caminho;
-    }
-
-    public Duration getDuracao() {
-        return duracao;
-    }
-
-    public void setDuracao(Duration duracao) {
-        this.duracao = duracao;
     }
     
     public String toString(){

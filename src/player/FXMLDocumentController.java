@@ -1,7 +1,4 @@
 /*
-    ARRUMAR UM JEITO DE CONSEGUIR PEGAR A DURAÇÃO DA MUSICA
-    FAZER A BARRA DE PROGRESSO FUNCIONAR
-    COLOCAR O BOTÃO DE ADICIONAR PASTA
     CRIAR ARQUIVO JAVADOC
 */
 
@@ -9,14 +6,12 @@ package player;
 
 import musica.*;
 import arquivo.*;
-import java.awt.event.ActionEvent;
 import java.io.File;
 import java.net.URL;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Observable;
 import java.util.ResourceBundle;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -25,7 +20,6 @@ import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.scene.Cursor;
 import javafx.scene.control.Label;
-import javafx.scene.control.ProgressBar;
 import javafx.scene.control.Slider;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -36,7 +30,6 @@ import javafx.scene.layout.VBox;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.stage.DirectoryChooser;
 import javafx.util.Duration;
@@ -52,6 +45,8 @@ public class FXMLDocumentController implements Initializable {
     private Playlist playlist = new Playlist();
     private int indiceMusica = 0;
     private boolean play=false;
+    private Duration duracaoTotalMusicaAtual;
+    private int idMusica=0;
     
     @FXML
     private Label artistaTocandoAgora;
@@ -88,13 +83,36 @@ public class FXMLDocumentController implements Initializable {
 
     @FXML
     private Label tituloTocandoAgora;
+    @FXML
+    private Slider barraVolume;
+    @FXML
+    private ImageView imgVolume;
     
-    void barraProgresso(){
+    public void barraVolume(){
+        barraVolume.valueProperty().addListener(new ChangeListener<Number>(){
+            @Override
+            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue){
+                if(newValue.doubleValue() >= 0.5){
+                    imgVolume.setImage(new Image(new File(Paths.get("").toAbsolutePath().resolve("src/assets/volumeAlto.png").toString()).toURI().toString()));
+                }else if(newValue.doubleValue() < 0.5 && newValue.doubleValue() > 0){
+                    imgVolume.setImage(new Image(new File(Paths.get("").toAbsolutePath().resolve("src/assets/volumeBaixo.png").toString()).toURI().toString()));
+                }else{
+                    imgVolume.setImage(new Image(new File(Paths.get("").toAbsolutePath().resolve("src/assets/mute.png").toString()).toURI().toString()));
+                }
+                tocadorDeMusica.setVolume(newValue.doubleValue());
+            }
+        });
+    }
+    
+    public void barraProgresso(){
         tocadorDeMusica.currentTimeProperty().addListener(new ChangeListener<Duration>() {
             @Override
             public void changed(ObservableValue<? extends Duration> observable, Duration oldValue, Duration newValue) {
                 atualizaTempo(newValue, timer);
                 barraProgresso.setValue(newValue.toSeconds());
+                if(barraProgresso.getValue() == duracaoTotalMusicaAtual.toSeconds()){
+                    proximaClick(null);
+                }
             }            
         });
         barraProgresso.valueProperty().addListener(new ChangeListener<Number>() {
@@ -111,7 +129,7 @@ public class FXMLDocumentController implements Initializable {
         barraProgresso.setMax(tempoTotal.toSeconds());
     }
     
-     private void atualizaTempo(Duration tempoAtual, Label tempoLabel) {
+    private void atualizaTempo(Duration tempoAtual, Label tempoLabel) {
          
         if (tempoAtual == null || tempoLabel == null) {
             return; // Evita problemas com valores nulos
@@ -133,7 +151,7 @@ public class FXMLDocumentController implements Initializable {
      * @param event 
      */
     @FXML
-    void eventoBtnPasta(MouseEvent event) {
+    public void eventoBtnPasta(MouseEvent event) {
             DirectoryChooser directoryChooser = new DirectoryChooser();
             directoryChooser.setTitle("Escolha um diretório");
             
@@ -155,7 +173,7 @@ public class FXMLDocumentController implements Initializable {
      * Essa função muda a imagem do botão play conforme o usuário clica e inicia a música ou pausa dependendo do estado da variável play
      */
     @FXML
-    void playClick(MouseEvent event) {
+    public void playClick(MouseEvent event) {
         if(!play){
             btnPlay.setImage(new Image(getClass().getResourceAsStream("../assets/BotoesPlayPause/Pause.png")));
             play=true;
@@ -172,12 +190,14 @@ public class FXMLDocumentController implements Initializable {
      * @param event 
      */
     @FXML
-    void proximaClick(MouseEvent event) {
+    public void proximaClick(MouseEvent event) {
         indiceMusica++;
         
-        if(indiceMusica > playlist.getPlaylist().size()){
+        if(indiceMusica >= playlist.getPlaylist().size()){
             indiceMusica = 0;
         }
+        System.out.println(indiceMusica);
+        System.out.println(playlist.getPlaylist().size());
         this.reinicializaMusica(indiceMusica);
         Musica musicaAtual = playlist.buscaMusica(this.musicaAtual.getSource());
         atualizaMusicaAtual(musicaAtual);
@@ -185,7 +205,9 @@ public class FXMLDocumentController implements Initializable {
             Duration tempoTotal = tocadorDeMusica.getTotalDuration();
             atualizaTempo(tempoTotal, this.duracaoTotal);
             atualizaBarra(tempoTotal);
+            duracaoTotalMusicaAtual = tempoTotal;
         });
+        tocadorDeMusica.setVolume(barraVolume.getValue());
         this.play = false;
         timer.setText("00:00");
         barraProgresso();
@@ -197,7 +219,7 @@ public class FXMLDocumentController implements Initializable {
      * @param event 
      */
     @FXML
-    void anteriorClick(MouseEvent event) {
+    public void anteriorClick(MouseEvent event) {
         indiceMusica--;
         
         if(indiceMusica < 0){
@@ -210,7 +232,9 @@ public class FXMLDocumentController implements Initializable {
             Duration tempoTotal = tocadorDeMusica.getTotalDuration();
             atualizaTempo(tempoTotal, duracaoTotal);
             atualizaBarra(tempoTotal);
+            duracaoTotalMusicaAtual = tempoTotal;
         });
+        tocadorDeMusica.setVolume(barraVolume.getValue());
         atualizaMusicaAtual(musicaAtual);
         this.play = false;
         timer.setText("00:00");
@@ -287,13 +311,16 @@ public class FXMLDocumentController implements Initializable {
                 tituloTocandoAgora.setText(musica.getTitulo());
                 playMusica(musica.getCaminho());
                 play = false;
+                tocadorDeMusica.setVolume(barraVolume.getValue());
                 tocadorDeMusica.setOnReady(() -> {
                     Duration tempoTotal = tocadorDeMusica.getTotalDuration();
                     atualizaTempo(tempoTotal, duracaoTotal);
                     atualizaBarra(tempoTotal);
+                    duracaoTotalMusicaAtual = tempoTotal;
                 });
                 playClick(null);
                 timer.setText("00:00");
+                indiceMusica = musica.getId();
                 barraProgresso();
                 
             });
@@ -311,7 +338,7 @@ public class FXMLDocumentController implements Initializable {
             metadadosMusica = ManipulaArquivo.getMetadados(url);
             Image capa = ManipulaArquivo.carregaCapa(url);
             if(metadadosMusica != null){
-                Musica musica = new Musica(metadadosMusica.get("titulo"), metadadosMusica.get("artista"), metadadosMusica.get("album"), capa, new File(url).toURI().toString());
+                Musica musica = new Musica(metadadosMusica.get("titulo"), metadadosMusica.get("artista"), metadadosMusica.get("album"), capa, new File(url).toURI().toString(), idMusica++);
                 playlist.addMusica(musica);
             }
         }
@@ -327,7 +354,10 @@ public class FXMLDocumentController implements Initializable {
             Duration tempoTotal = tocadorDeMusica.getTotalDuration();
             atualizaTempo(tempoTotal, duracaoTotal);
             atualizaBarra(tempoTotal);
+            duracaoTotalMusicaAtual = tempoTotal;
         });
         barraProgresso();
+        barraVolume();
+        tocadorDeMusica.setVolume(barraVolume.getValue());
     }
 }

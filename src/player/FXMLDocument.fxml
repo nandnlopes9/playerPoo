@@ -15,36 +15,36 @@
 <AnchorPane id="AnchorPane" fx:id="telaPrincipal" prefHeight="900.0" prefWidth="1600.0" style="-fx-background-color: #343434;" stylesheets="@../assets/newCascadeStyleSheet.css" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="player.FXMLDocumentController">
    <children>
       <Rectangle arcHeight="50.0" arcWidth="50.0" fill="#222222" height="900.0" layoutX="-21.0" stroke="TRANSPARENT" strokeType="INSIDE" width="691.0" />
-      <ImageView fx:id="capaTocandoAgora" fitHeight="289.0" fitWidth="315.0" layoutX="180.0" layoutY="180.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="capaTocandoAgora" fitHeight="368.0" fitWidth="385.0" layoutX="141.0" layoutY="101.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../assets/imgPadrao.jpeg" />
          </image>
       </ImageView>
-      <Label fx:id="tituloTocandoAgora" layoutX="53.0" layoutY="489.0" prefHeight="158.0" prefWidth="543.0" textFill="WHITE" wrapText="true">
+      <Label fx:id="tituloTocandoAgora" layoutX="53.0" layoutY="480.0" prefHeight="158.0" prefWidth="543.0" textFill="WHITE" wrapText="true">
          <font>
             <Font size="48.0" />
          </font>
       </Label>
-      <Label fx:id="artistaTocandoAgora" layoutX="53.0" layoutY="647.0" prefHeight="30.0" prefWidth="543.0" textFill="WHITE">
+      <Label fx:id="artistaTocandoAgora" layoutX="53.0" layoutY="638.0" prefHeight="30.0" prefWidth="543.0" textFill="WHITE">
          <font>
             <Font size="24.0" />
          </font>
       </Label>
-      <ImageView fx:id="btnPlay" fitHeight="70.0" fitWidth="70.0" layoutX="317.0" layoutY="771.0" onMouseClicked="#playClick" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="btnPlay" fitHeight="70.0" fitWidth="70.0" layoutX="290.0" layoutY="755.0" onMouseClicked="#playClick" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../assets/BotoesPlayPause/Play.png" />
          </image>
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor></ImageView>
-      <ImageView fx:id="btnProximo" fitHeight="70.0" fitWidth="70.0" layoutX="448.0" layoutY="771.0" onMouseClicked="#proximaClick" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="btnProximo" fitHeight="70.0" fitWidth="70.0" layoutX="425.0" layoutY="755.0" onMouseClicked="#proximaClick" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../assets/BotoesPlayPause/Proximo.png" />
          </image>
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor></ImageView>
-      <ImageView fx:id="btnAnterior" fitHeight="70.0" fitWidth="70.0" layoutX="194.0" layoutY="771.0" onMouseClicked="#anteriorClick" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="btnAnterior" fitHeight="70.0" fitWidth="70.0" layoutX="155.0" layoutY="755.0" onMouseClicked="#anteriorClick" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../assets/BotoesPlayPause/Anterior.png" />
          </image>
@@ -81,16 +81,22 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </HBox>
-      <Label fx:id="timer" alignment="TOP_CENTER" layoutX="14.0" layoutY="711.0" text="0:00" textFill="WHITE">
+      <Label fx:id="timer" alignment="TOP_CENTER" layoutX="14.0" layoutY="676.0" text="0:00" textFill="WHITE">
          <font>
             <Font size="20.0" />
          </font>
       </Label>
-      <Label fx:id="duracaoTotal" alignment="CENTER" layoutX="596.0" layoutY="711.0" text="0:00" textFill="WHITE">
+      <Label fx:id="duracaoTotal" alignment="CENTER" layoutX="606.0" layoutY="676.0" text="0:00" textFill="WHITE">
          <font>
             <Font size="20.0" />
          </font>
       </Label>
-      <Slider fx:id="barraProgresso" layoutX="59.0" layoutY="719.0" prefHeight="14.0" prefWidth="530.0" />
+      <Slider fx:id="barraProgresso" layoutX="65.0" layoutY="684.0" prefHeight="14.0" prefWidth="530.0" stylesheets="@../assets/newCascadeStyleSheet.css" />
+      <Slider fx:id="barraVolume" layoutX="60.0" layoutY="860.0" max="1.0" stylesheets="@../assets/newCascadeStyleSheet.css" value="0.5" />
+      <ImageView fx:id="imgVolume" fitHeight="30.0" fitWidth="31.0" layoutX="22.0" layoutY="852.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../assets/volumeAlto.png" />
+         </image>
+      </ImageView>
    </children>
 </AnchorPane>
