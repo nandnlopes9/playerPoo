@@ -52,9 +52,9 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </ImageView>
-      <ScrollPane layoutX="670.0" layoutY="35.0" prefHeight="867.0" prefWidth="930.0" style="-fx-background-color: #343434;">
+      <ScrollPane hbarPolicy="NEVER" layoutX="670.0" layoutY="35.0" prefHeight="867.0" prefWidth="930.0" style="-fx-background-color: #343434;" stylesheets="@../assets/newCascadeStyleSheet.css">
          <content>
-            <VBox fx:id="musicasTela" prefHeight="882.0" prefWidth="927.0" style="-fx-background-color: #343434;">
+            <VBox fx:id="musicasTela" prefHeight="885.0" prefWidth="930.0" style="-fx-background-color: #343434;" stylesheets="@../assets/newCascadeStyleSheet.css">
                <children>
                   <Label text="Label" />
                </children>

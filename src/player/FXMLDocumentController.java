@@ -292,6 +292,9 @@ public class FXMLDocumentController implements Initializable {
             album.setTextFill(Color.WHITE);
             artista.setTextFill(Color.WHITE);
             
+            album.setPadding(new Insets(5,0,0,0));
+            artista.setPadding(new Insets(5,0,0,0));
+            
             dadosMusica.getChildren().add(titulo);
             dadosMusica.getChildren().add(album);
             dadosMusica.getChildren().add(artista);
@@ -348,6 +351,7 @@ public class FXMLDocumentController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         musicasTela.getChildren().addAll(addMusica(null));
         musicasTela.setMaxWidth(910);
+        musicasTela.setMaxHeight(865);
         playMusica(playlist.getPlaylist().get(indiceMusica).getCaminho());
         atualizaMusicaAtual(playlist.buscaMusica(playlist.getPlaylist().get(indiceMusica).getCaminho()));
         tocadorDeMusica.setOnReady(() -> {
