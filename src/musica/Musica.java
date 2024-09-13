@@ -15,6 +15,7 @@ public class Musica {
     private Image capa;
     private String caminho;
     private int id;
+    private double duracao;
     
     public Musica(String titulo, String artista, String album, Image capa, String caminho, int id){
         this.album = album;

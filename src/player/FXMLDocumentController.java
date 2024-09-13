@@ -219,8 +219,6 @@ public class FXMLDocumentController implements Initializable {
         if(indiceMusica >= playlist.getPlaylist().size()){
             indiceMusica = 0;
         }
-        System.out.println(indiceMusica);
-        System.out.println(playlist.getPlaylist().size());
         this.reinicializaMusica(indiceMusica);
         Musica musicaAtual = playlist.buscaMusica(this.musicaAtual.getSource());
         atualizaMusicaAtual(musicaAtual);
@@ -367,9 +365,8 @@ public class FXMLDocumentController implements Initializable {
         HashMap<String, String> metadadosMusica;
         for(String url : ManipulaArquivo.buscaMusicas(caminho)){
             metadadosMusica = ManipulaArquivo.getMetadados(url);
-            Image capa = ManipulaArquivo.carregaCapa(url);
-            if(metadadosMusica != null && capa!=null){
-                Musica musica = new Musica(metadadosMusica.get("titulo"), metadadosMusica.get("artista"), metadadosMusica.get("album"), capa, new File(url).toURI().toString(), idMusica++);
+            if(metadadosMusica != null && ManipulaArquivo.carregaCapa(url) != null){
+                Musica musica = new Musica(metadadosMusica.get("titulo"), metadadosMusica.get("artista"), metadadosMusica.get("album"), ManipulaArquivo.carregaCapa(url), new File(url).toURI().toString(), idMusica++);
                 playlist.addMusica(musica);
             }else{
                 Musica musica = new Musica("Sem titulo","","", new Image(new File(Paths.get("").toAbsolutePath().resolve("src/assets/imgPadrao.jpeg").toString()).toURI().toString()),new File(url).toURI().toString(), idMusica++);
